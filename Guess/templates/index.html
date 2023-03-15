@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>猜数字游戏</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #FFFFFF;
+    }
+
+    header {
+      background-color: #000000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    header nav {
+      margin: 0 auto;
+      width: 90%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+
+    header nav a {
+      color: #FFFFFF;
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+    }
+
+    header nav a:hover {
+      color: #8B8B8B;
+    }
+
+    header nav a.active {
+      color: #22B14C;
+    }
+
+    .container {
+      margin: 80px auto;
+      width: 90%;
+      text-align: center;
+      background-color: #FFFFFF;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 50px 0;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    input[type="number"] {
+      width: 250px;
+      height: 50px;
+      border-radius: 10px;
+      border: 2px solid #D0D0D0;
+      font-size: 24px;
+      color: #000000;
+      background-color: #FFFFFF;
+      margin-right: 10px;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      width: 150px;
+      height: 50px;
+      border-radius: 10px;
+      border: none;
+      font-size: 18px;
+      color: #FFFFFF;
+      background-color: #22B14C;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #1B8B3A;
+    }
+
+    .result {
+      margin-top: 50px;
+      padding: 20px;
+      font-size: 24px;
+      color: #000000;
+      background-color: #DFF0D8;
+      border-radius: 10px;
+    }
+    .dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 50px;
+      z-index: 2;
+    }
+    .dialog-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #8B8B8B;
+      cursor: pointer;
+    }
+
+    .dialog-close:hover {
+      color: #000000;
+    }
+
+    .dialog h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .dialog p {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .dialog input[type="submit"] {
+      width: 150px;
+      height: 50px;
+      border-radius: 10px;
+      border: none;
+      font-size: 18px;
+      color: #FFFFFF;
+      background-color: #22B14C;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .dialog input[type="submit"]:hover {
+      background-color: #1B8B3A;
+    }
+    </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="#" class="active">猜数字游戏</a>
+      <a href="#">关于</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>猜数字游戏</h1>
+    <form id="guess-form">
+      <label for="guess-input">输入一个1到100之间的整数：</label>
+      <input type="number" id="guess-input" name="guess" min="1" max="100" required>
+      <input type="submit" value="猜">
+    </form>
+    <div id="result-container" class="result"></div>
+  </div>
+  <div id="dialog-container" class="dialog">
+    <span class="dialog-close">&times;</span>
+    <h2>游戏结束</h2>
+    <p>恭喜你猜对了！</p>
+    <input type="submit" value="重新开始" id="restart-btn">
+  </div>
+  <script>
+    const form = document.getElementById('guess-form');
+    const resultContainer = document.getElementById('result-container');
+    const dialogContainer = document.getElementById('dialog-container');
+    const restartBtn = document.getElementById('restart-btn');
+    dialogContainer.style.display = 'none';
+    let answer = Math.floor(Math.random() * 100) + 1;
+    let guesses = 0;
+    form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    let guess = parseInt(document.getElementById('guess-input').value);
+    if (guess === answer) {
+      guesses++;
+      resultContainer.textContent = `恭喜你猜对了！你一共猜了${guesses}次。`;
+      dialogContainer.style.display = 'block';
+    } else if (guess < answer) {
+      guesses++;
+      resultContainer.textContent = '你猜的数字太小了，请再试一次。';
+    } else {
+      guesses++;
+      resultContainer.textContent = '你猜的数字太大了，请再试一次。';
+    }
+  });
+
+  restartBtn.addEventListener('click', function() {
+    answer = Math.floor(Math.random() * 100) + 1;
+    guesses = 0;
+    resultContainer.textContent = '';
+    document.getElementById('guess-input').value = '';
+    dialogContainer.style.display = 'none';
+  });
+
+  const dialogCloseBtn = document.querySelector('.dialog-close');
+  dialogCloseBtn.addEventListener('click', function() {
+    dialogContainer.style.display = 'none';
+  });
+ </script>
+</body>
+</html>

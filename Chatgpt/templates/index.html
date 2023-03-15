@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Neware AI助手</title>
+    <style>
+      body {
+        background-color: #f9f9f9;
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      h1 {
+        color: #ffc107;
+        font-size: 36px;
+        margin-top: 50px;
+      }
+      form {
+        display: inline-block;
+        margin-top: 50px;
+        text-align: left;
+      }
+      label {
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      input[type="text"] {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 10px;
+        width: 400px;
+      }
+      button[type="submit"] {
+        background-color: #ffc107;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+        padding: 10px 20px;
+      }
+      textarea {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        height: 200px;
+        padding: 10px;
+        resize: none;
+        width: 800px;
+      }
+      p {
+        font-size: 20px;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Neware AI助手</h1>
+    <form method="post">
+      <label for="question">请输入问题：</label>
+      <input type="text" name="question" id="question" required>
+      <br>
+      <button type="submit">提问</button>
+    </form>
+    {% if answer %}
+      <p>回答：</p>
+      <textarea readonly>{{ answer }}</textarea>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,5 @@
+build
+debug
+dist
+openai_manager
+tests
